@@ -1,0 +1,5 @@
+twtcloudenv/*
+.DS_Store
+*cpython*
+scrape_*.py
+*ipynb
