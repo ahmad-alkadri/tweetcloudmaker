@@ -31,18 +31,16 @@ st.markdown("""
 st.title("TweetCloud Maker")
 st.header("Description")
 st.markdown(
-        """
+    """
 	This webapp makes wordcloud based on the tweets of a 
 	username, any username, as long as their profile is public 
 	and they have tweets in their profile. 
 	
-	Simply navigate to the sidebar on the left and select the 
-	scraping mode that you want (either you scraped certain 
-	number of their last tweets or their tweets of certain 
-	date interval), input the username and the number of 
-	tweets that you want to search or the date interval, and 
-	click 'Submit'. Below, you'll find the word cloud. 
-	**Attention**, though:
+	Go to the sidebar on the left and select the 
+	scraping mode that you want, input the username and the number of 
+	tweets that you want to search *or* the date interval, and 
+	click Submit. Below, you'll find the word cloud. **Warnings**:
+	
 	+ the whole process could take between 30—60 seconds
 	+ at maximum only 2000 tweets will be scraped
 	"""
