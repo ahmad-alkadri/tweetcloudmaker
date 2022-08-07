@@ -3,3 +3,5 @@ twtcloudenv/*
 *cpython*
 scrape_*.py
 *ipynb
+.streamlit
+devel
