@@ -31,30 +31,20 @@ st.markdown("""
 st.title("TweetCloud Maker")
 st.header("Description")
 st.markdown(
-        """
+    """
 	This webapp makes wordcloud based on the tweets of a 
 	username, any username, as long as their profile is public 
 	and they have tweets in their profile. 
 	
-	Simply navigate to the sidebar on the left and select the 
-	scraping mode that you want (either you scraped certain 
-	number of their last tweets or their tweets of certain 
-	date interval), input the username and the number of 
-	tweets that you want to search or the date interval, and 
-	click 'Submit'. Below, you'll find the word cloud. 
-	**Attention**, though:
+	Go to the sidebar on the left and select the 
+	scraping mode that you want, input the username and the number of 
+	tweets that you want to search *or* the date interval, and 
+	click Submit. Below, you'll find the word cloud. **Warnings**:
+	
 	+ the whole process could take between 30—60 seconds
 	+ at maximum only 2000 tweets will be scraped
 	"""
 )
-st.sidebar.header("About")
-st.sidebar.info("""
-	This app is maintained by Ahmad Alkadri. 
-	You can learn more about me at my
-	[blog](https://ahmadalkadri.com) or 
-	[github](https://github.com/ahmad-alkadri).
-""")
-st.sidebar.markdown("---")
 
 # SECTION - CONFIG PART -----
 # This section is dedicated to parts used for configuring
@@ -99,12 +89,12 @@ elif modescrape == "Date interval":
         dateend_str = dateend.strftime("%Y-%m-%d")
         datestart_str = datestart.strftime("%Y-%m-%d")
         subt = st.form_submit_button()
-st.sidebar.markdown("---")
 
 # Button to clear caches
 st.sidebar.info("""Click the button below to clear all cached tweets 
     that were scraped""")
 clcbut = st.sidebar.button("Clear Cache")
+
 if clcbut:
     st.experimental_memo.clear()
     st.experimental_singleton.clear()
@@ -170,6 +160,7 @@ if 'dft' in globals():
             words=wordsready,
             mask=maskcorr
         )
+        statcloud = True
     except ValueError as err:
         print(err)
         st.warning("""
@@ -179,8 +170,9 @@ if 'dft' in globals():
 			2. the twitter profile is public\n
 			3. the user has tweeted at least once
 		""")
+        statcloud = False
 
-    if 'word_cloud' in globals():
+    if statcloud:
         st.header("TweetCloud")
         st.markdown("""
 			Right-click the image below and select "Save Image As" 
@@ -211,3 +203,14 @@ if 'dft' in globals():
         ax.axis('off')
         ax.set_facecolor('#1DA1F2')
         st.pyplot(fig, pad_inches=0)
+
+st.markdown("---")
+st.header("Contact")
+st.info("""
+	This app is maintained by Ahmad Alkadri. 
+	You can learn more about me at my
+	[blog](https://ahmadalkadri.com) or 
+	[github](https://github.com/ahmad-alkadri). 
+    If you have any questions, feel free to raise 
+    them as Issues.
+""")
