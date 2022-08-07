@@ -45,14 +45,6 @@ st.markdown(
 	+ at maximum only 2000 tweets will be scraped
 	"""
 )
-st.sidebar.header("About")
-st.sidebar.info("""
-	This app is maintained by Ahmad Alkadri. 
-	You can learn more about me at my
-	[blog](https://ahmadalkadri.com) or 
-	[github](https://github.com/ahmad-alkadri).
-""")
-st.sidebar.markdown("---")
 
 # SECTION - CONFIG PART -----
 # This section is dedicated to parts used for configuring
@@ -209,3 +201,14 @@ if 'dft' in globals():
         ax.axis('off')
         ax.set_facecolor('#1DA1F2')
         st.pyplot(fig, pad_inches=0)
+
+st.markdown("---")
+st.header("Contact")
+st.info("""
+	This app is maintained by Ahmad Alkadri. 
+	You can learn more about me at my
+	[blog](https://ahmadalkadri.com) or 
+	[github](https://github.com/ahmad-alkadri). 
+    If you have any questions, feel free to raise 
+    them as Issues.
+""")
