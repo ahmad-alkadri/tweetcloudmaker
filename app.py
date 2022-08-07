@@ -89,12 +89,12 @@ elif modescrape == "Date interval":
         dateend_str = dateend.strftime("%Y-%m-%d")
         datestart_str = datestart.strftime("%Y-%m-%d")
         subt = st.form_submit_button()
-st.sidebar.markdown("---")
 
 # Button to clear caches
 st.sidebar.info("""Click the button below to clear all cached tweets 
     that were scraped""")
 clcbut = st.sidebar.button("Clear Cache")
+
 if clcbut:
     st.experimental_memo.clear()
     st.experimental_singleton.clear()
@@ -160,6 +160,7 @@ if 'dft' in globals():
             words=wordsready,
             mask=maskcorr
         )
+        statcloud = True
     except ValueError as err:
         print(err)
         st.warning("""
@@ -169,8 +170,9 @@ if 'dft' in globals():
 			2. the twitter profile is public\n
 			3. the user has tweeted at least once
 		""")
+        statcloud = False
 
-    if 'word_cloud' in globals():
+    if statcloud:
         st.header("TweetCloud")
         st.markdown("""
 			Right-click the image below and select "Save Image As" 
