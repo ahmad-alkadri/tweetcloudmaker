@@ -6,7 +6,7 @@ import requests
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 import streamlit as st
-import helperfuns as hlp
+import src.helperfuns as hlp
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
