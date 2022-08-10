@@ -88,7 +88,7 @@ smmap==5.0.0
 snscrape @ git+https://github.com/JustAnotherArchivist/snscrape.git@eee06d859338b184fc43f93e424ba70a0e9f4679
 soupsieve==2.3.1
 stack-data==0.3.0
-streamlit==1.11.1
+streamlit==1.7.0
 terminado==0.12.1
 testpath==0.5.0
 tinycss2==1.1.1
