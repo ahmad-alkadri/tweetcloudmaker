@@ -194,7 +194,7 @@ if 'dft' in globals():
         # Text credit
         ax.text(
             0.5, 0.05,
-            'tweetcloudmaker.herokuapp.com',
+            'tweetcloudmaker.streamlit.app',
             horizontalalignment='center',
             fontsize=5,
             font_properties=font_prop,
