@@ -5,3 +5,4 @@ scrape_*.py
 *ipynb
 .streamlit
 devel
+venv/*
