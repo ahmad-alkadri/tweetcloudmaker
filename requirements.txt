@@ -46,7 +46,6 @@ requests==2.31.0
 rich==13.4.1
 six==1.16.0
 smmap==5.0.0
-snscrape==0.6.2.20230320
 soupsieve==2.4.1
 streamlit==1.23.1
 tenacity==8.2.2
