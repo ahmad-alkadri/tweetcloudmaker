@@ -14,7 +14,8 @@ import src.helperfuns as hlp
 st.set_page_config(page_title="Tweet Cloud Maker")
 
 # Tweet scraper client
-twtdig = hlp.TweetDigester()
+if "twtdig" not in st.session_state:
+    st.session_state["twtdig"] = hlp.TweetDigester()
 
 # Hide the hamburger menu
 st.markdown("""
@@ -61,13 +62,13 @@ with st.sidebar.form("formquantity"):
     skipreplies = st.checkbox("Skip replies")
     subt = st.form_submit_button()
 
-st.sidebar.button("clear Cache", on_click=twtdig.clear_cache)
+st.sidebar.button("clear Cache", on_click=st.session_state["twtdig"].clear_cache)
 
 # Scrape the tweets
 if subt:
     with st.spinner("Scraping..."):
         try:
-            twtdig.get_tweets_user(usernamereq, numtweets, skipreplies)
+            st.session_state["twtdig"].get_tweets_user(usernamereq, numtweets, skipreplies)
         except Exception:
             st.error("Error during tweet scraping")
 
@@ -77,7 +78,7 @@ if subt:
     # displaying it on the page.
 
     with st.spinner("Preparing the wordcloud..."):
-        alltweetsclean = twtdig.get_cleaned_tweets()
+        alltweetsclean = st.session_state["twtdig"].get_cleaned_tweets()
 
         # Clean up
         wordsclean = ' '.join(alltweetsclean)
