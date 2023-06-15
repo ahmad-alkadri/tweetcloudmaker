@@ -2,7 +2,6 @@
 import os
 from PIL import Image
 import numpy as np
-import requests
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
 import streamlit as st
@@ -30,21 +29,24 @@ st.markdown("""
 # This section is dedicated for displaying the short
 # description of this web app and how to use it.
 st.title("TweetCloud Maker")
-st.header("Description")
-st.markdown(
-    """
-	This webapp makes wordcloud based on the tweets of a 
-	username, any username, as long as their profile is public 
-	and they have tweets in their profile. 
-	
-	Go to the sidebar, input the username and the number of 
-	tweets that you want to search, and 
-	click Submit. Below, you'll find the word cloud. **Warnings**:
-	
-	+ the whole process could take between 30—60 seconds
-	+ at maximum only 1000 tweets will be scraped
-	"""
-)
+
+with st.expander("Show description"):
+    st.header("Description")
+    st.write(
+        """
+        This webapp makes wordcloud based on the tweets of a 
+        username, any username, as long as their profile is public 
+        and they have tweets in their profile. Go to the sidebar, input the username and the number of 
+        tweets that you want to search, and click Submit.""")
+        
+    st.write("""
+        Automatically, every scraping queries will be saved as caches
+        for five minutes. If you want to clear all the caches, simply
+        click the button clear Cache on the sidebar.
+        Below, you'll find the word cloud. The whole process could take 
+        between 30—60 seconds and at maximum only 1000 tweets will be scraped
+        """
+    )
 
 # SECTION - CONFIG PART -----
 # Sidebar forms for the config menu
@@ -59,18 +61,7 @@ with st.sidebar.form("formquantity"):
     skipreplies = st.checkbox("Skip replies")
     subt = st.form_submit_button()
 
-# Button to clear caches
-# st.sidebar.info("""Click the button below to clear all cached tweets 
-#     that were scraped""")
-# clcbut = st.sidebar.button("Clear Cache")
-
-# if clcbut:
-#     st.cache_data.clear()
-#     st.cache_resource.clear()
-
-# SECTION - SCRAPING PART -----
-# This section is dedicated to the tweet-scraping operations.
-# It takes the input by users made on the CONFIG section
+st.sidebar.button("clear Cache", on_click=twtdig.clear_cache)
 
 # Scrape the tweets
 if subt:
@@ -168,7 +159,7 @@ st.header("Contact")
 st.info("""
 	This app is maintained by Ahmad Alkadri. 
 	You can learn more about me at my
-	[blog](https://ahmadalkadri.com) or 
+	[blog](https://ahmad-alkadri.github.io) or 
 	[github](https://github.com/ahmad-alkadri). 
     If you have any questions, feel free to raise 
     them as Issues.
