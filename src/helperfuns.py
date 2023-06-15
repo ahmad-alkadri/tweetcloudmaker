@@ -3,21 +3,39 @@ from pytterrator import Client
 from wordcloud import WordCloud, STOPWORDS
 import streamlit as st
 import re
-import unicodedata
+from cachetools import TTLCache
 
+# Initialize the cache object
+scraping_cache = TTLCache(maxsize=1000, ttl=300)
 
 class TweetDigester:
     def __init__(self):
         self.client = Client()
         self.arrtweets = [""]
 
-    def get_tweets_user(self, username, numtweet, exclude_replies: bool = False):
-        self.arrtweets = self.client.getprecisenumtweetstext(
-            username,
+    def wrapper_getprecisenumtweets(
+        self, username, numtweet, exclude_replies: bool = False
+    ):
+        cache_key = (username, numtweet, exclude_replies)
+
+        if cache_key in scraping_cache:
+            return scraping_cache[cache_key]
+
+        lis_texts_tweets = self.client.getprecisenumtweetstext(
+            screen_name=username,
             count=numtweet,
-            exclude_replies=False,
+            exclude_replies=exclude_replies,
             include_rts=False,
             limit_singlereq=20,
+        )
+        scraping_cache[cache_key] = lis_texts_tweets
+        return lis_texts_tweets
+
+    def get_tweets_user(self, username, numtweet, exclude_replies: bool = False):
+        self.arrtweets = self.wrapper_getprecisenumtweets(
+            username=username,
+            numtweet=numtweet,
+            exclude_replies=exclude_replies,
         )
 
     def get_cleaned_tweets(self):
@@ -36,6 +54,10 @@ class TweetDigester:
                 if pattern.match(word):  # add word only if it matches the pattern
                     words.append(word)
         return words
+
+    def clear_cache(self):
+        """Clear the cache for wrapper_getprecisenumtweets."""
+        scraping_cache.clear()
 
 
 @st.cache_resource(show_spinner=False)
