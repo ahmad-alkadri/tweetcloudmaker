@@ -5,21 +5,21 @@ import streamlit as st
 import re
 from cachetools import TTLCache
 
-# Initialize the cache object
-scraping_cache = TTLCache(maxsize=1000, ttl=300)
 
 class TweetDigester:
     def __init__(self):
         self.client = Client()
         self.arrtweets = [""]
+        # A cache of up to 1000 items that expire after 300 seconds
+        self._cache = TTLCache(maxsize=1000, ttl=300)
 
     def wrapper_getprecisenumtweets(
         self, username, numtweet, exclude_replies: bool = False
     ):
         cache_key = (username, numtweet, exclude_replies)
 
-        if cache_key in scraping_cache:
-            return scraping_cache[cache_key]
+        if cache_key in self._cache:
+            return self._cache[cache_key]
 
         lis_texts_tweets = self.client.getprecisenumtweetstext(
             screen_name=username,
@@ -28,7 +28,7 @@ class TweetDigester:
             include_rts=False,
             limit_singlereq=20,
         )
-        scraping_cache[cache_key] = lis_texts_tweets
+        self._cache[cache_key] = lis_texts_tweets
         return lis_texts_tweets
 
     def get_tweets_user(self, username, numtweet, exclude_replies: bool = False):
@@ -57,7 +57,7 @@ class TweetDigester:
 
     def clear_cache(self):
         """Clear the cache for wrapper_getprecisenumtweets."""
-        scraping_cache.clear()
+        self._cache.clear()
 
 
 @st.cache_resource(show_spinner=False)
